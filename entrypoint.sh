@@ -1,3 +1,3 @@
 #!/bin/sh -l
-echo ::set-output name=result::piska
+echo ::set-output name=result::$(flake8)
 
