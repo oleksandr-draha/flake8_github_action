@@ -1,5 +1,3 @@
 #!/bin/sh -l
-echo ::echo::on
-flake8 --ignore=E501
-echo ::echo::off
+::set-output name=result::"$(flake8 --ignore=E501)"
 
