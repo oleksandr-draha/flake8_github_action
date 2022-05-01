@@ -7,6 +7,6 @@ jobs:
     steps:
       - name: Flake8 step
         id: flake8
-        uses: oleksandr-draha/flake8_github_action@v2a
+        uses: oleksandr-draha/flake8_github_action@v2b
       - name: Get flake8 output
         run: echo "${{ steps.flake8.outputs.result }}"
