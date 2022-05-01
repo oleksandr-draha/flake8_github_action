@@ -1,0 +1,8 @@
+name: 'Flake8 checks'
+description: 'Run Flake8 on source code'
+outputs:
+  result: # Result of Flake8 run
+    description: 'Flake8 result'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
