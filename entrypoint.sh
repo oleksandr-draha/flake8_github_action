@@ -1,3 +1,3 @@
 #!/bin/sh -l
-::set-output name=result::"$(flake8 --ignore=E501)"
+echo ::set-output name=result::piska
 
