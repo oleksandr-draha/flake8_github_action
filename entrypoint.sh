@@ -1,5 +1,5 @@
 #!/bin/sh -l
-echo '::echo::on'
+echo ::echo::on
 flake8 --ignore=E501
-echo '::echo::off'
+echo ::echo::off
 
