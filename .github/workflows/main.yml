@@ -7,6 +7,8 @@ jobs:
     steps:
       - name: Flake8 step
         id: flake8
-        uses: oleksandr-draha/flake8_github_action@v3e
+        uses: oleksandr-draha/flake8_github_action@v3d
       - name: Get flake8 output
-        run: echo "${{ steps.flake8.outputs.result }}"
+        run: |
+          echo "::set-output name=TEST::$(ls)"
+        id: piska
