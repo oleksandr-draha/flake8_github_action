@@ -1,5 +1,5 @@
 #!/bin/sh
-echo '::echo::on'
-OUTPUT=$(flake8 --ignore=501)
+echo "::echo::on"
+OUTPUT="piska"
 echo "${OUTPUT}"
-echo ::set-output name=result::"${OUTPUT}"
+echo "::set-output name=result::\"${OUTPUT}\""
