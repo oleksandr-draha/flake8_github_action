@@ -10,5 +10,5 @@ jobs:
         uses: oleksandr-draha/flake8_github_action@v3f
       - name: Get flake8 output
         run: |
-          echo "::set-output name=TEST::$(ls)"
+          echo "::set-output name=TEST::$(flake8)"
         id: piska
