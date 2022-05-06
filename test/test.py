@@ -3,7 +3,7 @@
 import sys
 
 
-
+t = 1
 
 def bAdName(s):
     a= s+1
