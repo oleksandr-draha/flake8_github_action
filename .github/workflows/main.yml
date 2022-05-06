@@ -8,7 +8,7 @@ jobs:
     name: Lint
     steps:
       - name: Check out source repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up Python environment
         uses: actions/setup-python@v2
         with:
@@ -19,7 +19,8 @@ jobs:
           ignore: E501
 
   example_comment_pr:
-    permissions: write-all
+    permissions: 
+        discussions: write
     runs-on: ubuntu-latest
     name: An example job to comment a PR
     steps:
