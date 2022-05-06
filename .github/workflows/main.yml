@@ -19,6 +19,7 @@ jobs:
           ignore: E501
 
   example_comment_pr:
+    permissions: write-all
     runs-on: ubuntu-latest
     name: An example job to comment a PR
     steps:
