@@ -1,17 +1,11 @@
-on: pull_request
+name: Lint
+
+on: [push, pull_request]
 
 jobs:
-  flake8:
+  lint:
     runs-on: ubuntu-latest
-    name: add_comment
     steps:
-      - uses: actions/github-script@v5
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '👋'
-            })
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - uses: psf/black@20.8b1
