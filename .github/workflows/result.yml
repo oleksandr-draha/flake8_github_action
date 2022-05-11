@@ -67,5 +67,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issue_number,
-              body: flake8_result
+              body: "Kindly fix next issues by flake8 checks before merging pull request:\\n" + flake8_result
             });
