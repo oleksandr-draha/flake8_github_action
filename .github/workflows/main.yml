@@ -22,7 +22,7 @@ jobs:
           pip install flake8
       - name: flake8 run
         run: |
-          flake8 --ignore=E501 >./result/flake8
+          flake8 --ignore=E501 > ./result/flake8_result
       - name: upload result
         if: always()
         uses: actions/upload-artifact@v2
