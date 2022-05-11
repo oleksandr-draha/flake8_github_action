@@ -32,13 +32,11 @@ jobs:
                archive_format: 'zip',
             });
             var fs = require('fs');
-            fs.writeFileSync('${{github.workspace}}/issue_number.zip', Buffer.from(download.data));
-            fs.writeFileSync('${{github.workspace}}/flake8_result.zip', Buffer.from(download.data));
+            fs.writeFileSync('${{github.workspace}}/result.zip', Buffer.from(download.data));
       - name: unzip
         run: |
-          unzip issue_number.zip
+          unzip result.zip
           cat ./issue_number
-          unzip flake8_result.zip
           cat ./flake8_result
       - name: comment
         uses: actions/github-script@v3
