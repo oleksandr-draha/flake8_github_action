@@ -20,6 +20,12 @@ jobs:
       - name: flake8 lint
         run: |
           flake8 --ignore=E501 >./result/flake8
+      - name: upload result
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: result
+          path: result/
   show-result:
     needs: flake8-lint
     if: always()
