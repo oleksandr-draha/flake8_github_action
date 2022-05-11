@@ -12,6 +12,8 @@ jobs:
   upload:
     runs-on: ubuntu-latest
     name: cat result
+    if: >
+      ${{ github.event.workflow_run.event == 'pull_request'}}
     steps:
       - name: cat
         run: |
