@@ -1,6 +1,3 @@
-import sys
-
-
 def bAdName(s):
     a = s + 1 - 2345
     b = a
