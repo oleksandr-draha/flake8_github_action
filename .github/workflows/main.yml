@@ -24,8 +24,8 @@ jobs:
     needs: flake8-lint
     continue-on-error: true
     runs-on: ubuntu-latest
-    name: cat result/flake8
+    name: cat result
     steps:
       - name: cat
         run: |
-          cat flake8
+          cat result/flake8
