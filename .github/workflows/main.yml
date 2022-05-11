@@ -16,3 +16,4 @@ jobs:
       - name: flake8 install
         run: |
           pip install flake8
+          ls
