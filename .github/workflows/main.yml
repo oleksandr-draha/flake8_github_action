@@ -16,4 +16,6 @@ jobs:
       - name: flake8 install
         run: |
           pip install flake8
-          ls
+      - name: flake8 lint
+        run: |
+          flake8 --ignore=E501
