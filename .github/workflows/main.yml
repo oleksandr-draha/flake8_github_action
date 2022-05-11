@@ -16,13 +16,18 @@ jobs:
       - name: flake8 install
         run: |
           pip install flake8
+          mkdir ./result
       - name: flake8 lint
         run: |
-          flake8 --ignore=E501 > flake8.result
+          flake8 --ignore=E501 >./result/flake8
+      - uses: actions/upload-artifact@v2
+        with:
+          name: result
+          path: result/
   show-result:
     runs-on: ubuntu-latest
-    name: cat result
+    name: cat result/flake8
     steps:
       - name: cat
         run: |
-          cat flake8.result
+          cat flake8
