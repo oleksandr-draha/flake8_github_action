@@ -37,7 +37,9 @@ jobs:
         run: |
           unzip result.zip
           cat ./issue_number
-          cat ./flake8_result
+          echo issue number:
+          cat ./issue_number
+          echo flake8 result:
       - name: comment
         uses: actions/github-script@v3
         with:
