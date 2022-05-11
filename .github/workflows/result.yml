@@ -8,7 +8,7 @@ on:
     types:
       - completed
       
- jobs:
+jobs:
   upload:
     runs-on: ubuntu-latest
     name: cat result
