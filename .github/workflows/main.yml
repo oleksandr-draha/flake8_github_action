@@ -19,3 +19,6 @@ jobs:
       - name: flake8 lint
         run: |
           flake8 --ignore=E501 > flake8.result
+      - name: cat result
+        run: |
+          cat flake8.result
