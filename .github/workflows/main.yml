@@ -19,7 +19,10 @@ jobs:
       - name: flake8 lint
         run: |
           flake8 --ignore=E501 > flake8.result
-      - name: cat result
-        continue-on-error: true
+  show-result:
+    runs-on: ubuntu-latest
+    name: cat result
+    steps:
+      - name: cat
         run: |
           cat flake8.result
