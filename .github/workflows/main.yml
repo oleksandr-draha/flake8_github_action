@@ -22,7 +22,7 @@ jobs:
           flake8 --ignore=E501 >./result/flake8
   show-result:
     needs: flake8-lint
-    continue-on-error: true
+    if: always()
     runs-on: ubuntu-latest
     name: cat result
     steps:
