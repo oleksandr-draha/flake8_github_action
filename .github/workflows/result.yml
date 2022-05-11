@@ -11,9 +11,9 @@ on:
 jobs:
   upload:
     runs-on: ubuntu-latest
-    name: cat result
+    name: comment
     steps:
-      - name: 'Download artifact'
+      - name: download
         uses: actions/github-script@v3.1.0
         with:
           script: |
@@ -32,7 +32,25 @@ jobs:
                archive_format: 'zip',
             });
             var fs = require('fs');
-            fs.writeFileSync('${{github.workspace}}/flake8.zip', Buffer.from(download.data));
-      - run: |
-          unzip flake8.zip
-          cat flake8
+            fs.writeFileSync('${{github.workspace}}/issue_number.zip', Buffer.from(download.data));
+            fs.writeFileSync('${{github.workspace}}/flake8_result.zip', Buffer.from(download.data));
+      - name: unzip
+        run: |
+          unzip issue_number.zip
+          cat ./issue_number
+          unzip flake8_result.zip
+          cat ./flake8_result
+      - name: comment
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            var fs = require('fs');
+            var issue_number = Number(fs.readFileSync('./issue_number'));
+            var flake8_result = String(fs.readFileSync('./flake8_result'));
+            await github.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue_number,
+              body: flake8_result
+            });
