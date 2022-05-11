@@ -13,10 +13,13 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: "3.9"
+      - name: save issue number
+        run: |
+          mkdir -p ./result
+          echo ${{ github.event.number }} > ./result/issue_number
       - name: flake8 install
         run: |
           pip install flake8
-          mkdir ./result
       - name: flake8 run
         run: |
           flake8 --ignore=E501 >./result/flake8
