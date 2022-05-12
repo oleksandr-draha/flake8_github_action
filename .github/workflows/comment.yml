@@ -49,11 +49,13 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             var fs = require('fs');
-            var issue_number = Number(fs.readFileSync('./issue_number'));
             var flake8_result = String(fs.readFileSync('./flake8_result'));
-            await github.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue_number,
-              body: ":pensive:\n#### Kindly fix next issues found by **flake8 check** before merging pull request:\n\n" + flake8_result
-            });
+            if (flake8_result) {
+              var issue_number = Number(fs.readFileSync('./issue_number'));
+              await github.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue_number,
+                body: ":pensive:\n#### Kindly fix next issues found by **flake8 check** before merging pull request:\n\n" + flake8_result
+              });
+            }
