@@ -61,5 +61,5 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: issue_number,
-                body: ":pensive:\n#### Kindly fix next issues found by **flake8 check** before merging pull request:\n\n" + flake8_result
+                body: comment
               });
