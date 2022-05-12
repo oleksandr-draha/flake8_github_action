@@ -1,10 +1,10 @@
-name: Process results
+name: Comment
 
 # read-write repo token
 # access to secrets
 on:
   workflow_run:
-    workflows: ["flake8"]
+    workflows: ["main"]
     types:
       - completed
 
@@ -14,9 +14,9 @@ permissions:
 jobs:
   upload:
     runs-on: ubuntu-latest
-    name: comment
+    name: Comment results
     steps:
-      - name: download
+      - name: Download artifacts
         uses: actions/github-script@v3.1.0
         with:
           script: |
@@ -26,7 +26,7 @@ jobs:
                run_id: ${{github.event.workflow_run.id }},
             });
             var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
-              return artifact.name == "result"
+              return artifact.name == "artifacts"
             })[0];
             var download = await github.actions.downloadArtifact({
                owner: context.repo.owner,
@@ -36,14 +36,14 @@ jobs:
             });
             var fs = require('fs');
             fs.writeFileSync('${{github.workspace}}/result.zip', Buffer.from(download.data));
-      - name: unzip
+      - name: Unzip artifacts
         run: |
-          unzip result.zip
+          unzip artifacts.zip
           echo "issue number:"
           cat ./issue_number
           echo "flake8 result:"
           cat ./flake8_result
-      - name: comment
+      - name: Comment flake8 results
         uses: actions/github-script@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
