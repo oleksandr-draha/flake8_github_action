@@ -1,16 +1,14 @@
-name: Comment
+name: Comment on PR
 
-# read-write repo token
-# access to secrets
 on:
   workflow_run:
-    workflows: ["main"]
+    workflows: ["pr_opened", "pr_updated"]
     types:
       - completed
 
 permissions:
   pull-requests: write
-    
+
 jobs:
   upload:
     runs-on: ubuntu-latest
@@ -39,27 +37,23 @@ jobs:
       - name: Unzip artifacts
         run: |
           unzip artifacts.zip
-          echo "issue number:"
-          cat ./issue_number
-          echo "flake8 result:"
-          cat ./flake8_result
-      - name: Comment flake8 results
+          echo "PR number:"
+          cat ./pr_number
+          echo "Comment:"
+          cat ./pr_comment
+      - name: Comment on PR
         uses: actions/github-script@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             var fs = require('fs');
-            var issue_number = Number(fs.readFileSync('./issue_number'));
-            var flake8_result = String(fs.readFileSync('./flake8_result'));
-            if (flake8_result) {
-              var comment = ":pensive:\n#### Kindly fix next issues found by **flake8 check** before merging pull request:\n\n" + flake8_result;
-            }
-            else {
-              var comment = ":innocent: **flake8 check ok**";
-            }
-            await github.issues.createComment({
+            var pr_number = Number(fs.readFileSync('./pr_number'));
+            var pr_comment = String(fs.readFileSync('./pr_comment'));
+            if (pr_comment) {
+              await github.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: issue_number,
                 body: comment
               });
+            }

@@ -1,0 +1,52 @@
+name: PR Opened
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+
+
+jobs:
+  main:
+    name: PR Opened
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v3
+
+    - name: Save PR number
+      run: |
+        mkdir -p ./artifacts
+        echo ${{ github.event.number }} > ./artifacts/pr_number
+
+    - name: Check branch prefix
+      id: prefix
+      uses:  ./.github/actions/check_branch_prefix
+      with:
+        branch_name: ${{ github.event.pull_request.head.ref }}
+
+    - name: Save branch prefix check result
+      id: save_prefix_check
+      if: steps.prefix.outputs.error_found
+      uses: ./.github/actions/add_to_pr_comment
+      with:
+        text: "${{ steps.prefix.outputs.error_found }}"
+
+    - name: Save find jira ticket result
+      id: save_jira_ticket
+      uses: ./.github/actions/add_to_pr_comment
+      with:
+        text: "No ticket was found in JIRA for branch name **${{ steps.prefix.outputs.leftover_branch }}**."
+
+    - name: Upload artifacts
+      id: upload_artifacts
+      if: steps.prefix.outputs.error_found || steps.find_jira_ticket.outputs.not_found
+      uses: actions/upload-artifact@v2
+      with:
+        name: artifacts
+        path: artifacts/
+
+    - name: Fail job if errors found
+      if: steps.prefix.outputs.error_found || steps.find_jira_ticket.outputs.not_found
+      run: exit 1

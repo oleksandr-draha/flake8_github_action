@@ -1,0 +1,36 @@
+name: "Flake8 checks"
+description: "Runs flake8 checks"
+outputs:
+  flake8_result:
+    description: "Result of flake8 checks"
+    value: ${{ steps.flake8.outputs.flake8_result }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python environment
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.9"
+    - name: Install flake8
+      shell: bash
+      run: |
+        pip install flake8
+    - name: Run flake8
+      shell: bash
+      run: |
+        flake8 --ignore=E501 --exit-zero > flake8_result
+
+    - name: Extract Flake8 results
+      id: flake8
+      uses: actions/github-script@v3.1.0
+      with:
+        script: |
+          var fs = require('fs');
+          var flake8_result = String(fs.readFileSync('flake8_result'));
+          if (flake8_result) {
+            var comment = "Next issues were found by **flake8 check** :\n\n" + flake8_result;
+            core.setOutput('flake8_result', comment);
+          } else {
+            core.setOutput('flake8_result', "");
+          }
