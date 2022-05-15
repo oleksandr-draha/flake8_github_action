@@ -8,7 +8,7 @@ on:
 
 
 jobs:
-  main:
+  pr_opened:
     name: PR Opened
     runs-on: ubuntu-latest
     steps:
