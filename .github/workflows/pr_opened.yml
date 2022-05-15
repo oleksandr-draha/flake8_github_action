@@ -9,7 +9,7 @@ on:
 
 jobs:
   pr_opened:
-    name: PR Opened
+    name: pr_opened
     runs-on: ubuntu-latest
     steps:
     - name: Checkout source

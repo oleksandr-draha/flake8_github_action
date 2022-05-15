@@ -8,7 +8,7 @@ on:
 
 jobs:
   pr_updated:
-    name: PR Updated
+    name: pr_updated
     runs-on: ubuntu-latest
     steps:
     - name: Checkout source
