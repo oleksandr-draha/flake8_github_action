@@ -11,5 +11,5 @@ runs:
     - name: add-comment-on-pr
       shell: bash
       run: |
-        echo "${{ inputs.text }}" >> ./artifacts/pr_comment
-        echo "\n" >> ./artifacts/pr_comment
+        echo $'${{ inputs.text }}' >> ./artifacts/pr_comment
+        echo $'\n' >> ./artifacts/pr_comment
