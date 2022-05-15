@@ -3,8 +3,8 @@ name: Comment on PR
 on:
   workflow_run:
     workflows: 
-      - pr_opened
-      - pr_updated
+      - "PR Updated"
+      - "PR Opened"
     types:
       - completed
 
