@@ -41,7 +41,7 @@ runs:
           if (errorFound) {
             errorFound += "\n";
           }
-          errorFound += "No possible ticket reference was found in branch name **" + branchName + "**.";
+          errorFound += "\nNo possible ticket reference was found in branch name **" + branchName + "**.";
         }
         core.setOutput('error_found', errorFound);
         core.setOutput('leftover_branch', leftoverBranch);
