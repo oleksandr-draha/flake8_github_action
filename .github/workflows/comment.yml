@@ -2,7 +2,9 @@ name: Comment on PR
 
 on:
   workflow_run:
-    workflows: ["pr_opened", "pr_updated"]
+    workflows: 
+      - pr_opened
+      - pr_updated
     types:
       - completed
 
