@@ -40,7 +40,7 @@ runs:
         } else {
           if (errorFound) {
             errorFound += `
-        `;
+         `;
           }
           errorFound += "No possible ticket reference was found in branch name **" + branchName + "**.";
         }
