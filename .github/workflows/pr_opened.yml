@@ -1,15 +1,14 @@
-name: PR Opened
+name: PR Updated
 
 on:
   pull_request:
     types:
-      - opened
-      - reopened
+      - synchronize
 
 
 jobs:
-  pr_opened:
-    name: pr_opened
+  pr_updated:
+    name: pr_updated
     runs-on: ubuntu-latest
     steps:
     - name: Checkout source
@@ -38,6 +37,17 @@ jobs:
       uses: ./.github/actions/add_to_pr_comment
       with:
         text: "No ticket was found in JIRA for branch name **${{ steps.prefix.outputs.leftover_branch }}**."
+
+    - name: Flake8 checks
+      id: flake8_check
+      uses: ./.github/actions/flake8_check
+
+    - name: Save flake8 check result
+      id: save_flake8_check
+      if: steps.flake8_check.outputs.flake8_result
+      uses: ./.github/actions/add_to_pr_comment
+      with:
+        text: "${{ steps.flake8_check.outputs.flake8_result }}"
 
     - name: Upload artifacts
       id: upload_artifacts
