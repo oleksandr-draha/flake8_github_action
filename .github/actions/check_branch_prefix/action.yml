@@ -40,10 +40,9 @@ runs:
         } else {
           if (errorFound) {
             errorFound += `
-         Test`;
+        
+        `;
           }
-          errorFound += `
-           Test`
           errorFound += "No possible ticket reference was found in branch name **" + branchName + "**.";
         }
         core.setOutput('error_found', errorFound);
