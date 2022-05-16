@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Show PR
-      if: github.event.action == 'opened'
+      if: github.event.action == 'opened' || github.event.action == 'reopened'
       run: |
         echo "${{ github.event.action }}"
     - name: Show PR1
