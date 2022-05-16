@@ -14,48 +14,5 @@ jobs:
     steps:
     - name: Show PR
       run: |
-        echo "${{ github.event.pull_request }}"
+        echo "${{ github.repository }}"
         
-    - name: Checkout source
-      uses: actions/checkout@v3
-
-    - name: Save PR number
-      run: |
-        mkdir -p ./artifacts
-        echo ${{ github.event.number }} > ./artifacts/pr_number
-
-    - name: Check branch prefix
-      id: prefix
-      uses:  ./.github/actions/check_branch_prefix
-      with:
-        branch_name: ${{ github.event.pull_request.head.ref }}
-
-    - name: Save branch prefix check result
-      id: save_prefix_check
-      if: steps.prefix.outputs.error_found
-      uses: ./.github/actions/add_to_pr_comment
-      with:
-        text: "${{ steps.prefix.outputs.error_found }}"
-
-    - name: Flake8 checks
-      id: flake8_check
-      uses: ./.github/actions/flake8_check
-
-    - name: Save flake8 check result
-      id: save_flake8_check
-      if: steps.flake8_check.outputs.flake8_result
-      uses: ./.github/actions/add_to_pr_comment
-      with:
-        text: "${{ steps.flake8_check.outputs.flake8_result }}"
-
-    - name: Upload artifacts
-      id: upload_artifacts
-      if: steps.prefix.outputs.error_found || steps.flake8_check.outputs.flake8_result
-      uses: actions/upload-artifact@v2
-      with:
-        name: artifacts
-        path: artifacts/
-
-    - name: Fail job if errors found
-      if: steps.prefix.outputs.error_found || steps.flake8_check.outputs.flake8_result
-      run: exit 1
