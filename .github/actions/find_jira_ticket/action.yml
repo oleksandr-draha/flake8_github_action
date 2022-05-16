@@ -1,0 +1,45 @@
+name: "Comment on PR"
+description: "Comments on PR"
+inputs:
+  leftover_branch:
+    required: true
+    type: string
+  JIRA_BASE_URL:
+    required: true
+    type: string
+  JIRA_USER_EMAIL:
+    required: true
+    type: string
+  JIRA_API_TOKEN:
+    required: true
+    type: string
+outputs:
+  not_found:
+    description: "Result of checking branch for valid prefix"
+    value: ${{ steps.process-results.outputs.not_found }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Login to JIRA
+      uses: atlassian/gajira-login@master
+      env:
+        JIRA_BASE_URL: ${{ inputs.JIRA_BASE_URL }}
+        JIRA_USER_EMAIL: ${{ inputs.JIRA_USER_EMAIL }}
+        JIRA_API_TOKEN: ${{ inputs.JIRA_API_TOKEN }}
+
+    - name: Find jira ticket in branch name
+      id: find_jira_ticket
+      if: inputs.leftover_branch
+      continue-on-error: true
+      uses: atlassian/gajira-find-issue-key@v2.0.2
+      with:
+        string: ${{ inputs.leftover_branch }}
+
+    - name: Process results
+      id: process-results
+      shell: bash
+      run: |
+        if [[ "${{ steps.find_jira_ticket.outcome }}" == "failure" ]]; then
+          echo '::set-output name=not_found::true'
+        fi

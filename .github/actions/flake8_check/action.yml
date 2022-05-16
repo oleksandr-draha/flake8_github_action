@@ -19,7 +19,7 @@ runs:
     - name: Run flake8
       shell: bash
       run: |
-        flake8 --ignore=E501 --exit-zero > flake8_result
+        flake8 --ignore=E501,W503,W504,E722 --exit-zero > flake8_result
 
     - name: Extract Flake8 results
       id: flake8

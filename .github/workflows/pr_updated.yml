@@ -3,14 +3,19 @@ name: PR Updated
 on:
   pull_request:
     types:
+      - opened
+      - reopened
       - synchronize
-
 
 jobs:
   pr_updated:
-    name: pr_updated
+    name: PR Updated
     runs-on: ubuntu-latest
     steps:
+    - name: Show PR
+      run: |
+        echo "${{ github.event.pull_request }}"
+        
     - name: Checkout source
       uses: actions/checkout@v3
 
@@ -32,12 +37,6 @@ jobs:
       with:
         text: "${{ steps.prefix.outputs.error_found }}"
 
-    - name: Save find jira ticket result
-      id: save_jira_ticket
-      uses: ./.github/actions/add_to_pr_comment
-      with:
-        text: "No ticket was found in JIRA for branch name **${{ steps.prefix.outputs.leftover_branch }}**."
-
     - name: Flake8 checks
       id: flake8_check
       uses: ./.github/actions/flake8_check
@@ -51,12 +50,12 @@ jobs:
 
     - name: Upload artifacts
       id: upload_artifacts
-      if: steps.prefix.outputs.error_found || steps.find_jira_ticket.outputs.not_found
+      if: steps.prefix.outputs.error_found || steps.flake8_check.outputs.flake8_result
       uses: actions/upload-artifact@v2
       with:
         name: artifacts
         path: artifacts/
 
     - name: Fail job if errors found
-      if: steps.prefix.outputs.error_found || steps.find_jira_ticket.outputs.not_found
+      if: steps.prefix.outputs.error_found || steps.flake8_check.outputs.flake8_result
       run: exit 1

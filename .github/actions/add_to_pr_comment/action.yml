@@ -11,5 +11,9 @@ runs:
     - name: add-comment-on-pr
       shell: bash
       run: |
-        echo $'${{ inputs.text }}' >> ./artifacts/pr_comment
+        if [ -f "./artifacts/pr_comment" ]
+        then
+        echo $'**There is some errors found by automatic PR checks**' >> ./artifacts/pr_comment
+        fi
+        echo "${{ inputs.text }}" >> ./artifacts/pr_comment
         echo $'\n' >> ./artifacts/pr_comment

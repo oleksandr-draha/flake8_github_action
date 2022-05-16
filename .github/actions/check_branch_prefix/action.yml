@@ -29,7 +29,7 @@ runs:
           errorFound = `No prefix was found in branch name **` + branchName + `**.
         Branch name must begin with one of: **` + allowedPrefixes.join(', ') + `**.`;
         } else if (!allowedPrefixes.includes(branchNameParts[0]))  {
-          errorFound = "**" + branchNameParts[0] + "** is not one of: **" + allowedPrefixes.join(', ') + '**.';
+          errorFound = "**" + branchName + "** doesn't start from one of: **" + allowedPrefixes.join(', ') + '**.';
         } else {
           leftoverBranch = branchNameParts[1];
         };
@@ -43,6 +43,7 @@ runs:
         
         `;
           }
+          leftoverBranch = ""
           errorFound += "No possible ticket reference was found in branch name **" + branchName + "**.";
         }
         core.setOutput('error_found', errorFound);
