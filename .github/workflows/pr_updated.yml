@@ -11,6 +11,7 @@ jobs:
   pr_updated:
     name: PR Updated
     runs-on: ubuntu-latest
+    if: ${{ github.event.action }} == 'opened' || ${{ github.event.action }} == 'reopened'
     steps:
     - name: Show PR
       run: |
