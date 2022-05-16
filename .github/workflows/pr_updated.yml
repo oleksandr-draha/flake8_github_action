@@ -11,9 +11,13 @@ jobs:
   pr_updated:
     name: PR Updated
     runs-on: ubuntu-latest
-    if: github.event.action == 'synchronize'
     steps:
     - name: Show PR
+      if: github.event.action == 'opened'
       run: |
+        echo "${{ github.event.action }}"
+    - name: Show PR1
+      run: |
+        echo 2
         echo "${{ github.event.action }}"
         
